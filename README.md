@@ -34,7 +34,7 @@ Then you'll want to create an instance of SteamClient and any handlers you need,
 ```js
 var steamClient = new Steam.SteamClient();
 var steamUser = new Steam.SteamUser(steamClient);
-steamClient.connect();
+steamClient.connect("0.0.0.0");// If you need use localAddress
 steamClient.on('connected', function() {
   steamUser.logOn({
     account_name: 'username',

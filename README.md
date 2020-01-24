@@ -14,7 +14,7 @@ This is a Node.js port of [SteamKit2](https://github.com/SteamRE/SteamKit). It l
 npm install steam
 ```
 
-Note: when installing from git, you have to additionally run `npm install` inside `steam/node_modules/steam-resources` to run the `prepublish` script (see [npm/npm#3055](https://github.com/npm/npm/issues/3055)). It pulls Steam resources (Protobufs and SteamLanguage) from SteamKit2 and requires `svn`.
+Note: installing from git requires `svn` to fetch Steam resources (Protobufs and SteamLanguage) and `curl` to fetch the server list.
 
 **Note: only Node.js v4.1.1 and above is supported.**
 
@@ -48,7 +48,7 @@ See example.js for the usage of some of the available API.
 
 # Servers
 
-`Steam.servers` contains the list of CM servers node-steam will attempt to connect to. The bootstrapped list (see [servers.js](https://github.com/seishun/node-steam/blob/master/lib/servers.js)) is not always up-to-date and might contain dead servers. To avoid timeouts, replace it with your own list before logging in if you have one (see ['servers' event](#servers-1)).
+`Steam.servers` contains the list of CM servers node-steam will attempt to connect to. The bootstrapped list (fetched in [prepare](https://docs.npmjs.com/misc/scripts)) can get out of date and thus contain dead servers. To avoid timeouts, replace it with your own list before logging in if you have one (see ['servers' event](#servers-1)).
 
 # SteamID
 
@@ -128,7 +128,7 @@ Connection closed by the server. Only emitted if the encryption handshake is com
 Encryption handshake complete. From now on, it's your responsibility to handle disconnections and reconnect (see ['error'](#error)). You'll likely want to log on now (see [SteamUser#logOn](lib/handlers/user#logonlogondetails)).
 
 ### 'logOnResponse'
-* [`CMsgClientLogonResponse`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_clientserver.proto)
+* [`CMsgClientLogonResponse`](https://github.com/SteamDatabase/Protobufs/blob/master/steam/steammessages_clientserver_login.proto)
 
 Logon response received. If `eresult` is `EResult.OK`, [`loggedOn`](#loggedon) is now `true`.
 
@@ -151,6 +151,6 @@ Sending and receiving client messages is designed to be symmetrical, so the even
 
 * `header` - an object representing the message header. It has the following properties:
   * `msg` - `EMsg` (no protomask).
-  * `proto` - a [`CMsgProtoBufHeader`](https://github.com/SteamRE/SteamKit/blob/master/Resources/Protobufs/steamclient/steammessages_base.proto) object if this message is protobuf-backed, otherwise `header.proto` is falsy. The following fields are reserved for internal use and shall be ignored: `steamid`, `client_sessionid`, `jobid_source`, `jobid_target`. (Note: pass an empty object if you don't need to set any fields)
+  * `proto` - a [`CMsgProtoBufHeader`](https://github.com/SteamDatabase/Protobufs/blob/master/steam/steammessages_base.proto) object if this message is protobuf-backed, otherwise `header.proto` is falsy. The following fields are reserved for internal use and shall be ignored: `steamid`, `client_sessionid`, `jobid_source`, `jobid_target`. (Note: pass an empty object if you don't need to set any fields)
 * `body` - a Buffer containing the rest of the message. (Note: in SteamKit2's terms, this is "Body" plus "Payload")
 * `callback` (optional) - if not falsy, then this message is a request, and `callback` shall be called with any response to it instead of 'message'/send. `callback` has the same arguments as 'message'/send.

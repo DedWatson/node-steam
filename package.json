@@ -1,13 +1,13 @@
 {
-  "name": "steam",
-  "version": "1.4.2",
+  "name": "@dedwatson/steam",
+  "version": "1.4.3",
   "description": "Lets you interface with Steam without running an actual Steam client",
   "license": "MIT",
   "author": "Kirill Kuznetsov <kuznetsov.kd.dev@gmail.com>",
   "main": "./lib/steam_client",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DedWatson/node-steam.git"
+    "url": "git+https://github.com/DedWatson/node-steam.git"
   },
   "scripts": {
     "prepare": "curl -fo servers.json \"https://api.steampowered.com/ISteamDirectory/GetCMList/v1/?cellid=0\""
@@ -19,10 +19,18 @@
     "steam-crypto": "^0.0",
     "steam-resources": "github:seishun/node-steam-resources#v1.2.1"
   },
-  "bundledDependencies": [
-    "steam-resources"
-  ],
   "engines": {
     "node": ">=4.1.1"
-  }
+  },
+  "bundleDependencies": [
+    "steam-resources"
+  ],
+  "bugs": {
+    "url": "https://github.com/DedWatson/node-steam/issues"
+  },
+  "homepage": "https://github.com/DedWatson/node-steam#readme",
+  "directories": {
+    "lib": "lib"
+  },
+  "devDependencies": {}
 }
